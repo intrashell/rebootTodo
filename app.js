@@ -35,6 +35,33 @@ app.use('/', todos);
 app.use('/about', routes);
 app.use('/scripts', js);
 
+/**************************************
+ *  Start Dynamic Paramater Routing   *
+ **************************************/
+
+// router param method.
+// forth paramater to be passed is the dynamic variable being used.
+router.param('route', (req, res, next, route) => {
+    route = require('./routes/'+route); // A string catenation for the path.
+    next(route);  // Passing the new variable as an argument.
+});
+
+
+/*route.get('/:route/', (req, res, next, route) => {  //  The new argument can b e called here.
+    res.json({"test": route.test}); // Test was the function I passed.  I am passing it as JSON.
+});
+
+***************************************
+*         Contents of test.js         *
+***************************************
+
+var test = 'this is a test 1';
+module.exports = test;
+
+/**************************************
+ *   End Dynamic Paramater Routing    *
+ **************************************/
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');
